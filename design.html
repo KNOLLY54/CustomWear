@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CustomWear - Customize Your Products</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#4F46E5',secondary:'#10B981'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Inter', sans-serif;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+.custom-checkbox {
+position: relative;
+cursor: pointer;
+}
+.custom-checkbox input {
+position: absolute;
+opacity: 0;
+cursor: pointer;
+}
+.checkmark {
+position: absolute;
+top: 0;
+left: 0;
+height: 20px;
+width: 20px;
+background-color: #fff;
+border: 2px solid #e5e7eb;
+border-radius: 4px;
+}
+.custom-checkbox:hover input ~ .checkmark {
+border-color: #d1d5db;
+}
+.custom-checkbox input:checked ~ .checkmark {
+background-color: #4F46E5;
+border-color: #4F46E5;
+}
+.checkmark:after {
+content: "";
+position: absolute;
+display: none;
+}
+.custom-checkbox input:checked ~ .checkmark:after {
+display: block;
+}
+.custom-checkbox .checkmark:after {
+left: 6px;
+top: 2px;
+width: 5px;
+height: 10px;
+border: solid white;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+.price-range {
+appearance: none;
+width: 100%;
+height: 6px;
+border-radius: 3px;
+background: #e5e7eb;
+outline: none;
+}
+.price-range::-webkit-slider-thumb {
+-webkit-appearance: none;
+appearance: none;
+width: 18px;
+height: 18px;
+border-radius: 50%;
+background: #4F46E5;
+cursor: pointer;
+}
+.price-range::-moz-range-thumb {
+width: 18px;
+height: 18px;
+border-radius: 50%;
+background: #4F46E5;
+cursor: pointer;
+border: none;
+}
+.color-filter input[type="checkbox"] {
+display: none;
+}
+.color-filter input[type="checkbox"] + label {
+display: inline-block;
+width: 24px;
+height: 24px;
+border-radius: 50%;
+cursor: pointer;
+position: relative;
+}
+.color-filter input[type="checkbox"]:checked + label::after {
+content: "";
+position: absolute;
+inset: -3px;
+border-radius: 50%;
+border: 2px solid #4F46E5;
+}
+</style>
+</head>
+<body class="bg-gray-50">
+<header class="bg-white shadow-sm fixed w-full z-50">
+<div class="container mx-auto px-4 py-3 flex items-center justify-between">
+<div class="flex items-center">
+<a href="#" class="text-2xl font-['Pacifico'] text-primary mr-8">logo</a>
+<nav class="hidden md:flex space-x-6">
+<a href="index.html" data-readdy="true" class="text-gray-900 font-medium hover:text-primary transition">Home</a>
+<a href="design.html" class="text-primary font-medium border-b-2 border-primary pb-1">Customize</a>
+<a href="mydesigns.html" data-readdy="true" class="text-gray-900 font-medium hover:text-primary transition">My Designs</a>
+<a href="#" class="text-gray-900 font-medium hover:text-primary transition">Pricing</a>
+</nav>
+</div>
+<div class="flex items-center space-x-4">
+<div class="relative hidden md:block">
+<input type="text" placeholder="Search products..." class="pl-10 pr-4 py-2 rounded border-gray-200 border focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm w-48 lg:w-64">
+<div class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 flex items-center justify-center text-gray-400">
+<i class="ri-search-line"></i>
+</div>
+</div>
+<div class="relative w-10 h-10 flex items-center justify-center text-gray-700 hover:text-primary cursor-pointer">
+<i class="ri-shopping-cart-line text-xl"></i>
+<span class="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+</div>
+<div class="w-10 h-10 flex items-center justify-center text-gray-700 hover:text-primary cursor-pointer">
+<i class="ri-user-line text-xl"></i>
+</div>
+<button class="md:hidden w-10 h-10 flex items-center justify-center text-gray-700">
+<i class="ri-menu-line text-xl"></i>
+</button>
+</div>
+</div>
+</header>
+<main class="pt-16">
+<!-- Breadcrumb -->
+<div class="bg-white border-b border-gray-200">
+<div class="container mx-auto px-4 py-3">
+<div class="flex items-center text-sm text-gray-500">
+<a href="#" data-readdy="true" class="hover:text-primary">Home</a>
+<div class="w-4 h-4 flex items-center justify-center mx-1">
+<i class="ri-arrow-right-s-line"></i>
+</div>
+<span class="text-gray-900 font-medium">Customize</span>
+</div>
+</div>
+</div>
+<!-- Category Selection Section -->
+<section class="py-12 bg-white">
+<div class="container mx-auto px-4">
+<div class="text-center mb-12">
+<h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Choose a Category to Customize</h1>
+<p class="text-gray-600 max-w-2xl mx-auto">Select from our wide range of customizable products and create something uniquely yours.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+<!-- Apparel Category -->
+<div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:shadow-md transition group">
+<div class="aspect-[4/3] bg-gray-50 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=collection%2520of%2520modern%2520apparel%2520items%2520including%2520t-shirts%252C%2520hoodies%252C%2520and%2520sweatshirts%2520arranged%2520elegantly%2520on%2520a%2520clean%2520white%2520background%2520with%2520soft%2520shadows.%2520Professional%2520product%2520photography%2520with%2520high%2520detail%2520and%2520clean%2520lighting.%2520The%2520items%2520are%2520solid%2520colors%2520without%2520any%2520patterns%2520or%2520designs.&width=600&height=450&seq=2001&orientation=landscape" alt="Apparel Collection" class="w-full h-full object-cover object-top transition group-hover:scale-105">
+</div>
+<div class="p-6">
+<h2 class="text-xl font-bold text-gray-900 mb-2">Apparel</h2>
+<p class="text-gray-600 mb-4">T-shirts, hoodies, sweatshirts, and more. Perfect for personal style or team uniforms.</p>
+<a href="#products" class="inline-flex items-center text-primary font-medium hover:text-primary/80">
+Browse Products
+<div class="w-5 h-5 flex items-center justify-center ml-1">
+<i class="ri-arrow-right-line"></i>
+</div>
+</a>
+</div>
+</div>
+<!-- Accessories Category -->
+<div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:shadow-md transition group">
+<div class="aspect-[4/3] bg-gray-50 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=collection%2520of%2520modern%2520accessories%2520including%2520phone%2520cases%252C%2520tote%2520bags%252C%2520and%2520hats%2520arranged%2520elegantly%2520on%2520a%2520clean%2520white%2520background%2520with%2520soft%2520shadows.%2520Professional%2520product%2520photography%2520with%2520high%2520detail%2520and%2520clean%2520lighting.%2520The%2520items%2520are%2520solid%2520colors%2520without%2520any%2520patterns%2520or%2520designs.&width=600&height=450&seq=2002&orientation=landscape" alt="Accessories Collection" class="w-full h-full object-cover object-top transition group-hover:scale-105">
+</div>
+<div class="p-6">
+<h2 class="text-xl font-bold text-gray-900 mb-2">Accessories</h2>
+<p class="text-gray-600 mb-4">Phone cases, tote bags, hats, and more. Add a personal touch to everyday items.</p>
+<a href="#products" class="inline-flex items-center text-primary font-medium hover:text-primary/80">
+Browse Products
+<div class="w-5 h-5 flex items-center justify-center ml-1">
+<i class="ri-arrow-right-line"></i>
+</div>
+</a>
+</div>
+</div>
+<!-- Home & Living Category -->
+<div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:shadow-md transition group">
+<div class="aspect-[4/3] bg-gray-50 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=collection%2520of%2520modern%2520home%2520and%2520living%2520items%2520including%2520mugs%252C%2520pillows%252C%2520and%2520wall%2520art%2520arranged%2520elegantly%2520on%2520a%2520clean%2520white%2520background%2520with%2520soft%2520shadows.%2520Professional%2520product%2520photography%2520with%2520high%2520detail%2520and%2520clean%2520lighting.%2520The%2520items%2520are%2520solid%2520colors%2520without%2520any%2520patterns%2520or%2520designs.&width=600&height=450&seq=2003&orientation=landscape" alt="Home & Living Collection" class="w-full h-full object-cover object-top transition group-hover:scale-105">
+</div>
+<div class="p-6">
+<h2 class="text-xl font-bold text-gray-900 mb-2">Home & Living</h2>
+<p class="text-gray-600 mb-4">Mugs, pillows, wall art, and more. Express your style in your living space.</p>
+<a href="#products" class="inline-flex items-center text-primary font-medium hover:text-primary/80">
+Browse Products
+<div class="w-5 h-5 flex items-center justify-center ml-1">
+<i class="ri-arrow-right-line"></i>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Product Grid Section -->
+<section id="products" class="py-12 bg-gray-50">
+<div class="container mx-auto px-4">
+<div class="flex justify-between items-center mb-8">
+<h2 class="text-2xl font-bold text-gray-900">Products to Customize</h2>
+<div class="flex items-center gap-3">
+<span class="text-sm text-gray-500">Showing 12 of 48 products</span>
+<div class="flex items-center gap-2">
+<button class="w-8 h-8 flex items-center justify-center bg-white rounded border border-gray-200 text-gray-400">
+<i class="ri-list-check"></i>
+</button>
+<button class="w-8 h-8 flex items-center justify-center bg-primary rounded border border-primary text-white">
+<i class="ri-grid-line"></i>
+</button>
+</div>
+</div>
+</div>
+<div class="flex flex-col lg:flex-row gap-8">
+<!-- Filter Sidebar -->
+<div class="lg:w-64 flex-shrink-0">
+<div class="bg-white rounded-xl shadow-sm p-6 sticky top-20">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-medium text-gray-900">Filters</h3>
+<button class="text-sm text-primary hover:text-primary/80">Clear All</button>
+</div>
+<!-- Category Filter -->
+<div class="mb-6">
+<h4 class="text-sm font-medium text-gray-700 mb-3">Category</h4>
+<div class="space-y-2">
+<label class="custom-checkbox flex items-center gap-4">
+<input type="checkbox" checked class="absolute opacity-0">
+<span class="checkmark"></span>
+<span class="text-gray-700 pl-6">All Categories</span>
+</label>
+<label class="custom-checkbox flex items-center gap-4">
+    <input type="checkbox" checked class="absolute opacity-0">
+    <span class="checkmark"></span>
+    <span class="text-gray-700 pl-6">Apparel</span>
+</label>
+<label class="custom-checkbox flex items-center gap-4">
+        <input type="checkbox" checked class="absolute opacity-0">
+        <span class="checkmark"></span>
+        <span class="text-gray-700 pl-6">Accessories</span>
+</label>
+<label class="custom-checkbox flex items-center gap-4">
+        <input type="checkbox" checked class="absolute opacity-0">
+        <span class="checkmark"></span>
+        <span class="text-gray-700 pl-6">Home & Living</span>
+</label>
+
+</div>
+</div>
+<!-- Price Range Filter -->
+<div class="mb-6">
+<h4 class="text-sm font-medium text-gray-700 mb-3">Price Range</h4>
+<input type="range" min="0" max="100" value="75" class="price-range mb-3" id="priceRange">
+<div class="flex justify-between text-sm text-gray-500">
+<span>$0</span>
+<span id="priceValue">$75</span>
+<span>$100</span>
+</div>
+</div>
+<!-- Color Filter -->
+<div class="mb-6">
+<h4 class="text-sm font-medium text-gray-700 mb-3">Color</h4>
+<div class="flex flex-wrap gap-2 color-filter">
+<div>
+<input type="checkbox" id="color-black" checked>
+<label for="color-black" class="bg-black"></label>
+</div>
+<div>
+<input type="checkbox" id="color-white">
+<label for="color-white" class="bg-white border border-gray-200"></label>
+</div>
+<div>
+<input type="checkbox" id="color-gray">
+<label for="color-gray" class="bg-gray-500"></label>
+</div>
+<div>
+<input type="checkbox" id="color-red">
+<label for="color-red" class="bg-red-500"></label>
+</div>
+<div>
+<input type="checkbox" id="color-blue">
+<label for="color-blue" class="bg-blue-500"></label>
+</div>
+<div>
+<input type="checkbox" id="color-green">
+<label for="color-green" class="bg-green-500"></label>
+</div>
+<div>
+<input type="checkbox" id="color-yellow">
+<label for="color-yellow" class="bg-yellow-500"></label>
+</div>
+<div>
+<input type="checkbox" id="color-purple">
+<label for="color-purple" class="bg-purple-500"></label>
+</div>
+</div>
+</div>
+<!-- Size Filter -->
+<div class="mb-6">
+<h4 class="text-sm font-medium text-gray-700 mb-3">Size</h4>
+<div class="grid grid-cols-4 gap-2">
+<button class="py-1 px-2 text-sm border border-gray-200 rounded bg-white hover:border-primary hover:text-primary">XS</button>
+<button class="py-1 px-2 text-sm border border-gray-200 rounded bg-white hover:border-primary hover:text-primary">S</button>
+<button class="py-1 px-2 text-sm border border-primary rounded bg-white text-primary">M</button>
+<button class="py-1 px-2 text-sm border border-gray-200 rounded bg-white hover:border-primary hover:text-primary">L</button>
+<button class="py-1 px-2 text-sm border border-gray-200 rounded bg-white hover:border-primary hover:text-primary">XL</button>
+<button class="py-1 px-2 text-sm border border-gray-200 rounded bg-white hover:border-primary hover:text-primary">XXL</button>
+</div>
+</div>
+<!-- Sort By -->
+<div>
+<h4 class="text-sm font-medium text-gray-700 mb-3">Sort By</h4>
+<div class="relative">
+<select class="w-full appearance-none bg-white border border-gray-200 rounded py-2 px-3 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+<option>Newest</option>
+<option>Popular</option>
+<option>Price: Low to High</option>
+<option>Price: High to Low</option>
+</select>
+<div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none w-4 h-4 flex items-center justify-center text-gray-500">
+<i class="ri-arrow-down-s-line"></i>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Product Grid -->
+<div class="flex-1">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Product 1 -->
+<div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 group">
+<div class="relative aspect-square bg-gray-50 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=black%2520hoodie%2520on%2520invisible%2520mannequin%2520against%2520clean%2520white%2520background.%2520Professional%2520product%2520photography%2520with%2520high%2520detail%2520and%2520clean%2520lighting.%2520Front%2520view%2520of%2520the%2520hoodie%2520with%2520no%2520designs%2520or%2520patterns.&width=400&height=400&seq=2004&orientation=squarish" alt="Black Hoodie" class="w-full h-full object-cover object-top transition group-hover:scale-105">
+<div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center bg-white rounded-full hover:bg-gray-100">
+<i class="ri-eye-line text-gray-700"></i>
+</button>
+<button class="w-10 h-10 flex items-center justify-center bg-white rounded-full hover:bg-gray-100">
+<i class="ri-heart-line text-gray-700"></i>
+</button>
+</div>
+</div>
+</div>
+<div class="p-4">
+<h3 class="font-medium text-gray-900 mb-1">Classic Hoodie</h3>
+<p class="text-gray-500 text-sm mb-3">Starting at $39.99</p>
+<button class="w-full bg-primary text-white py-2 font-medium !rounded-button hover:bg-primary/90 transition whitespace-nowrap">Customize This</button>
+</div>
+</div>
+<!-- Product 2 -->
+<div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 group">
+<div class="relative aspect-square bg-gray-50 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=white%2520t-shirt%2520on%2520invisible%2520mannequin%2520against%2520clean%2520white%2520background.%2520Professional%2520product%2520photography%2520with%2520high%2520detail%2520and%2520clean%2520lighting.%2520Front%2520view%2520of%2520the%2520t-shirt%2520with%2520no%2520designs%2520or%2520patterns.&width=400&height=400&seq=2005&orientation=squarish" alt="White T-Shirt" class="w-full h-full object-cover object-top transition group-hover:scale-105">
+<div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center bg-white rounded-full hover:bg-gray-100">
+<i class="ri-eye-line text-gray-700"></i>
+</button>
+<button class="w-10 h-10 flex items-center justify-center bg-white rounded-full hover:bg-gray-100">
+<i class="ri-heart-line text-gray-700"></i>
+</button>
+</div>
+</div>
+</div>
+<div class="p-4">
+<h3 class="font-medium text-gray-900 mb-1">Premium T-Shirt</h3>
+<p class="text-gray-500 text-sm mb-3">Starting at $24.99</p>
+<button class="w-full bg-primary text-white py-2 font-medium !rounded-button hover:bg-primary/90 transition whitespace-nowrap">Customize This</button>
+</div>
+</div>
+<!-- Product 3 -->
+<div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 group">
+<div class="relative aspect-square bg-gray-50 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=gray%2520sweatshirt%2520on%2520invisible%2520mannequin%2520against%2520clean%2520white%2520background.%2520Professional%2520product%2520photography%2520with%2520high%2520detail%2520and%2520clean%2520lighting.%2520Front%2520view%2520of%2520the%2520sweatshirt%2520with%2520no%2520designs%2520or%2520patterns.&width=400&height=400&seq=2006&orientation=squarish" alt="Gray Sweatshirt" class="w-full h-full object-cover object-top transition group-hover:scale-105">
+<div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center bg-white rounded-full hover:bg-gray-100">
+<i class="ri-eye-line text-gray-700"></i>
+</button>
+<button class="w-10 h-10 flex items-center justify-center bg-white rounded-full hover:bg-gray-100">
+<i class="ri-heart-line text-gray-700"></i>
+</button>
+</div>
+</div>
+</div>
+<div class="p-4">
+<h3 class="font-medium text-gray-900 mb-1">Crewneck Sweatshirt</h3>
+<p class="text-gray-500 text-sm mb-3">Starting at $34.99</p>
+<button class="w-full bg-primary text-white py-2 font-medium !rounded-button hover:bg-primary/90 transition whitespace-nowrap">Customize This</button>
+</div>
+</div>
+<!-- Product 4 -->
+<div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 group">
+<div class="relative aspect-square bg-gray-50 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=ceramic%2520coffee%2520mug%2520on%2520clean%2520white%2520background.%2520Professional%2520product%2520photography%2520with%2520high%2520detail%2520and%2520clean%2520lighting.%2520The%2520mug%2520is%2520white%2520with%2520no%2520designs%2520or%2520patterns.&width=400&height=400&seq=2007&orientation=squarish" alt="Coffee Mug" class="w-full h-full object-cover object-top transition group-hover:scale-105">
+<div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center bg-white rounded-full hover:bg-gray-100">
+<i class="ri-eye-line text-gray-700"></i>
+</button>
+<button class="w-10 h-10 flex items-center justify-center bg-white rounded-full hover:bg-gray-100">
+<i class="ri-heart-line text-gray-700"></i>
+</button>
+</div>
+</div>
+</div>
+<div class="p-4">
+<h3 class="font-medium text-gray-900 mb-1">Ceramic Mug</h3>
+<p class="text-gray-500 text-sm mb-3">Starting at $14.99</p>
+<button class="w-full bg-primary text-white py-2 font-medium !rounded-button hover:bg-primary/90 transition whitespace-nowrap">Customize This</button>
+</div>
+</div>
+<!-- Product 5 -->
+<div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 group">
+<div class="relative aspect-square bg-gray-50 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=phone%2520case%2520on%2520clean%2520white%2520background.%2520Professional%2520product%2520photography%2520with%2520high%2520detail%2520and%2520clean%2520lighting.%2520The%2520phone%2520case%2520is%2520black%2520with%2520no%2520designs%2520or%2520patterns.&width=400&height=400&seq=2008&orientation=squarish" alt="Phone Case" class="w-full h-full object-cover object-top transition group-hover:scale-105">
+<div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center bg-white rounded-full hover:bg-gray-100">
+<i class="ri-eye-line text-gray-700"></i>
+</button>
+<button class="w-10 h-10 flex items-center justify-center bg-white rounded-full hover:bg-gray-100">
+<i class="ri-heart-line text-gray-700"></i>
+</button>
+</div>
+</div>
+</div>
+<div class="p-4">
+<h3 class="font-medium text-gray-900 mb-1">Phone Case</h3>
+<p class="text-gray-500 text-sm mb-3">Starting at $19.99</p>
+<button class="w-full bg-primary text-white py-2 font-medium !rounded-button hover:bg-primary/90 transition whitespace-nowrap">Customize This</button>
+</div>
+</div>
+<!-- Product 6 -->
+<div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 group">
+<div class="relative aspect-square bg-gray-50 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=canvas%2520tote%2520bag%2520on%2520clean%2520white%2520background.%2520Professional%2520product%2520photography%2520with%2520high%2520detail%2520and%2520clean%2520lighting.%2520The%2520tote%2520bag%2520is%2520natural%2520canvas%2520color%2520with%2520no%2520designs%2520or%2520patterns.&width=400&height=400&seq=2009&orientation=squarish" alt="Tote Bag" class="w-full h-full object-cover object-top transition group-hover:scale-105">
+<div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center bg-white rounded-full hover:bg-gray-100">
+<i class="ri-eye-line text-gray-700"></i>
+</button>
+<button class="w-10 h-10 flex items-center justify-center bg-white rounded-full hover:bg-gray-100">
+<i class="ri-heart-line text-gray-700"></i>
+</button>
+</div>
+</div>
+</div>
+<div class="p-4">
+<h3 class="font-medium text-gray-900 mb-1">Canvas Tote Bag</h3>
+<p class="text-gray-500 text-sm mb-3">Starting at $16.99</p>
+<button class="w-full bg-primary text-white py-2 font-medium !rounded-button hover:bg-primary/90 transition whitespace-nowrap">Customize This</button>
+</div>
+</div>
+<!-- Product 7 -->
+<div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 group">
+<div class="relative aspect-square bg-gray-50 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=baseball%2520cap%2520on%2520clean%2520white%2520background.%2520Professional%2520product%2520photography%2520with%2520high%2520detail%2520and%2520clean%2520lighting.%2520The%2520cap%2520is%2520black%2520with%2520no%2520designs%2520or%2520patterns.&width=400&height=400&seq=2010&orientation=squarish" alt="Baseball Cap" class="w-full h-full object-cover object-top transition group-hover:scale-105">
+<div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center bg-white rounded-full hover:bg-gray-100">
+<i class="ri-eye-line text-gray-700"></i>
+</button>
+<button class="w-10 h-10 flex items-center justify-center bg-white rounded-full hover:bg-gray-100">
+<i class="ri-heart-line text-gray-700"></i>
+</button>
+</div>
+</div>
+</div>
+<div class="p-4">
+<h3 class="font-medium text-gray-900 mb-1">Baseball Cap</h3>
+<p class="text-gray-500 text-sm mb-3">Starting at $21.99</p>
+<button class="w-full bg-primary text-white py-2 font-medium !rounded-button hover:bg-primary/90 transition whitespace-nowrap">Customize This</button>
+</div>
+</div>
+<!-- Product 8 -->
+<div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 group">
+<div class="relative aspect-square bg-gray-50 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=throw%2520pillow%2520on%2520clean%2520white%2520background.%2520Professional%2520product%2520photography%2520with%2520high%2520detail%2520and%2520clean%2520lighting.%2520The%2520pillow%2520is%2520white%2520with%2520no%2520designs%2520or%2520patterns.&width=400&height=400&seq=2011&orientation=squarish" alt="Throw Pillow" class="w-full h-full object-cover object-top transition group-hover:scale-105">
+<div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center bg-white rounded-full hover:bg-gray-100">
+<i class="ri-eye-line text-gray-700"></i>
+</button>
+<button class="w-10 h-10 flex items-center justify-center bg-white rounded-full hover:bg-gray-100">
+<i class="ri-heart-line text-gray-700"></i>
+</button>
+</div>
+</div>
+</div>
+<div class="p-4">
+<h3 class="font-medium text-gray-900 mb-1">Throw Pillow</h3>
+<p class="text-gray-500 text-sm mb-3">Starting at $24.99</p>
+<button class="w-full bg-primary text-white py-2 font-medium !rounded-button hover:bg-primary/90 transition whitespace-nowrap">Customize This</button>
+</div>
+</div>
+<!-- Product 9 -->
+<div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 group">
+<div class="relative aspect-square bg-gray-50 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=wall%2520art%2520canvas%2520on%2520clean%2520white%2520background.%2520Professional%2520product%2520photography%2520with%2520high%2520detail%2520and%2520clean%2520lighting.%2520The%2520canvas%2520is%2520white%2520with%2520no%2520designs%2520or%2520patterns.&width=400&height=400&seq=2012&orientation=squarish" alt="Wall Art Canvas" class="w-full h-full object-cover object-top transition group-hover:scale-105">
+<div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center bg-white rounded-full hover:bg-gray-100">
+<i class="ri-eye-line text-gray-700"></i>
+</button>
+<button class="w-10 h-10 flex items-center justify-center bg-white rounded-full hover:bg-gray-100">
+<i class="ri-heart-line text-gray-700"></i>
+</button>
+</div>
+</div>
+</div>
+<div class="p-4">
+<h3 class="font-medium text-gray-900 mb-1">Canvas Wall Art</h3>
+<p class="text-gray-500 text-sm mb-3">Starting at $29.99</p>
+<button class="w-full bg-primary text-white py-2 font-medium !rounded-button hover:bg-primary/90 transition whitespace-nowrap">Customize This</button>
+</div>
+</div>
+</div>
+<!-- Load More -->
+<div class="mt-10 text-center">
+<button class="bg-white text-gray-900 px-6 py-3 font-medium !rounded-button border border-gray-200 hover:bg-gray-50 transition whitespace-nowrap">Load More Products</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- How It Works Section -->
+<section class="py-16 bg-white">
+<div class="container mx-auto px-4">
+<div class="text-center mb-12">
+<h2 class="text-3xl font-bold text-gray-900 mb-4">How Customization Works</h2>
+<p class="text-gray-600 max-w-2xl mx-auto">Creating your personalized product is easy with our simple three-step process.</p>
+</div>
+<div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+<div class="text-center">
+<div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary">
+<i class="ri-t-shirt-line text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-2">1. Choose a Product</h3>
+<p class="text-gray-600">Browse our collection and select the perfect blank canvas for your design.</p>
+</div>
+<div class="text-center">
+<div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary">
+<i class="ri-palette-line text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-2">2. Design Your Way</h3>
+<p class="text-gray-600">Use our intuitive editor to add text, images, and graphics to create your masterpiece.</p>
+</div>
+<div class="text-center">
+<div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary">
+<i class="ri-truck-line text-2xl"></i>
+</div>
+<h3 class="text-xl font-bold text-gray-900 mb-2">3. We Deliver</h3>
+<p class="text-gray-600">Place your order and we'll handle the production and shipping to your doorstep.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-16 bg-primary">
+<div class="container mx-auto px-4 text-center">
+<h2 class="text-3xl font-bold text-white mb-4">Ready to Create Your Custom Design?</h2>
+<p class="text-white/80 max-w-2xl mx-auto mb-8">Start designing your personalized products today and bring your ideas to life.</p>
+<div class="flex flex-wrap justify-center gap-4">
+<button class="bg-white text-primary px-6 py-3 font-medium !rounded-button hover:bg-gray-100 transition whitespace-nowrap">Start Designing Now</button>
+<button class="bg-transparent text-white border border-white px-6 py-3 font-medium !rounded-button hover:bg-white/10 transition whitespace-nowrap">View Pricing</button>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-gray-900 text-white pt-16 pb-8">
+<div class="container mx-auto px-4">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+<div>
+<a href="#" class="text-2xl font-['Pacifico'] text-white mb-4 inline-block">logo</a>
+<p class="text-gray-400 mb-4">Create personalized products that reflect your unique style and personality.</p>
+<div class="flex space-x-4">
+<a href="#" class="text-gray-400 hover:text-white transition">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-facebook-fill"></i>
+</div>
+</a>
+<a href="#" class="text-gray-400 hover:text-white transition">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-instagram-fill"></i>
+</div>
+</a>
+<a href="#" class="text-gray-400 hover:text-white transition">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-twitter-x-fill"></i>
+</div>
+</a>
+<a href="#" class="text-gray-400 hover:text-white transition">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-pinterest-fill"></i>
+</div>
+</a>
+</div>
+</div>
+<div>
+<h3 class="text-lg font-medium mb-4">Products</h3>
+<ul class="space-y-2">
+<li><a href="#" class="text-gray-400 hover:text-white transition">Hoodies</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition">T-Shirts</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition">Sweatshirts</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition">Mugs</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition">Phone Cases</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition">Tote Bags</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-lg font-medium mb-4">Company</h3>
+<ul class="space-y-2">
+<li><a href="#" class="text-gray-400 hover:text-white transition">About Us</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition">Careers</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition">Blog</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition">Press</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition">Partners</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-lg font-medium mb-4">Support</h3>
+<ul class="space-y-2">
+<li><a href="#" class="text-gray-400 hover:text-white transition">Help Center</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition">Contact Us</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition">Shipping Info</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition">Returns Policy</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition">Size Guide</a></li>
+</ul>
+</div>
+</div>
+<div class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
+<p class="text-gray-400 text-sm mb-4 md:mb-0">© 2025 CustomWear. All rights reserved.</p>
+<div class="flex flex-wrap gap-4 text-sm">
+<a href="#" class="text-gray-400 hover:text-white transition">Privacy Policy</a>
+<a href="#" class="text-gray-400 hover:text-white transition">Terms of Service</a>
+<a href="#" class="text-gray-400 hover:text-white transition">Cookie Policy</a>
+</div>
+</div>
+<div class="mt-8 flex justify-center space-x-6">
+<div class="w-8 h-5 flex items-center justify-center text-gray-400">
+<i class="ri-visa-fill text-xl"></i>
+</div>
+<div class="w-8 h-5 flex items-center justify-center text-gray-400">
+<i class="ri-mastercard-fill text-xl"></i>
+</div>
+<div class="w-8 h-5 flex items-center justify-center text-gray-400">
+<i class="ri-paypal-fill text-xl"></i>
+</div>
+<div class="w-8 h-5 flex items-center justify-center text-gray-400">
+<i class="ri-apple-fill text-xl"></i>
+</div>
+<div class="w-8 h-5 flex items-center justify-center text-gray-400">
+<i class="ri-google-fill text-xl"></i>
+</div>
+</div>
+</div>
+</footer>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+// Price range slider
+const priceRange = document.getElementById('priceRange');
+const priceValue = document.getElementById('priceValue');
+if (priceRange && priceValue) {
+priceRange.addEventListener('input', function() {
+priceValue.textContent = '$' + this.value;
+});
+}
+});
+document.addEventListener('DOMContentLoaded', function() {
+// Mobile menu toggle
+const menuButton = document.querySelector('button.md\\:hidden');
+if (menuButton) {
+menuButton.addEventListener('click', function() {
+// Mobile menu functionality would go here
+alert('Mobile menu clicked');
+});
+}
+});
+document.addEventListener('DOMContentLoaded', function() {
+// Product quick view
+const quickViewButtons = document.querySelectorAll('.ri-eye-line');
+quickViewButtons.forEach(button => {
+button.closest('button').addEventListener('click', function() {
+const productName = this.closest('.group').querySelector('h3').textContent;
+alert('Quick view for ' + productName);
+});
+});
+});
+document.addEventListener('DOMContentLoaded', function() {
+// Add to favorites
+const favoriteButtons = document.querySelectorAll('.ri-heart-line');
+favoriteButtons.forEach(button => {
+button.closest('button').addEventListener('click', function() {
+const productName = this.closest('.group').querySelector('h3').textContent;
+alert(productName + ' added to favorites');
+});
+});
+});
+</script>
+</body>
+</html>
